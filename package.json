@@ -1,0 +1,21 @@
+{
+  "name": "my-habit-tracker",
+  "version": "1.0.0",
+  "description": "My Habit Tracker is an app used to keep track of habits daily/weekly. It is made using Nodejs and ejs.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Narala Praveen",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-ejs-layouts": "^2.5.1",
+    "mongoose": "^6.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

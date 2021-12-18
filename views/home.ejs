@@ -1,0 +1,146 @@
+<!-- Form to add habit -->
+<div class="container">
+    <form method="POST" action="/add-habit">
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <input class="form-control" name="habitName" type="text" placeholder="Enter a habit(eg: reading)" required>
+
+            </div>
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary">Add Habit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<h2 class="text-center">List of Habits</h2>
+<!-- List of habits -->
+<% if(habits.length===0){ %>
+<p class="text-center">List is empty.</p>
+<% }else{ %>
+<% if(view === "daily"){ %>
+    <!-- daily view of habits -->
+    <div class="secondary-nav-container container">
+        <div class="row">
+            <ul class="list-group">
+                <% habits.forEach(habit => { 
+                    let timezone = (new Date()).getTimezoneOffset() * 60000, found=false, status='';
+                    var today = (new Date(Date.now() - timezone)).toISOString().slice(0, 10);
+                    habit.dates.find(function (item, index) {
+                    if(item.date === today) {
+                            found = true;
+                            status = item.complete;
+                    }
+                });
+                %>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-1">
+                            <%= habit.habitName %>
+                        </div>
+                        <div class="col-xs-9">
+
+                        </div>
+                        <div class="col-xs-2">
+                            <a href="/status/?id=<%= habit._id %>&date=<%= today %>">
+                                
+                                <% if(found && status==='yes'){ %>
+                                <i class="bi bi-check-circle-fill" style="color: black;" title="Done">Done</i>
+                                <% } else if(found && status==='no'){ %>
+                                <i class="bi bi-x-circle-fill" style="color: black;" title="Not done">Not done</i>
+                                
+                                <% } else { %>
+                                <i class="bi bi-dash-circle-fill" style="color: black;" title="None">None</i>
+                                <% } %>
+                            </a>
+                            <a href="/favourite/?id=<%= habit._id %>">
+                                
+                                <% if(habit.favourite) { %>
+                                <i class="bi bi-star-fill" style="color: black;" title="Remove from favourite"></i>
+                                <% } else { %>
+                                <i class="bi bi-star" style="color: black;" title="Set as favourite"></i>
+                                <% } %>
+                            </a>
+                            <a href="/delete/?id=<%= habit._id %>">
+                                <i class="bi bi-trash-fill" style="color: black;" title="Delete Habit"></i>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+        
+<% } else { %>
+    <!-- weekly view of habits -->
+    <div class="secondary-nav-container container">
+        <div class="row">
+            <ul class="list-group">
+                <% habits.forEach(habit => { %>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-1">
+                            <%= habit.habitName %>
+                        </div>
+                        <div class="col-xs-9">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Status</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% days.forEach(day => { let found = false, status = '';
+                                    habit.dates.find(function (item, index) {
+                                        if(item.date === day.date)
+                                        {
+                                            found = true;
+                                            status = item.complete;
+                                        }
+                                    });
+                                    %>
+                                    <tr>
+                                        <td><%= day.day + ", " + day.date.slice(-2) %></th>
+                                        <td>
+                                            <a href="status/?id=<%= habit._id %>&date=<%= day.date %>" class="status2 mt-4">
+                                            <% if(found && status==='yes'){ %>
+                                            <i class="bi bi-check-circle-fill" style="color: black;" title="Done">Done</i>
+                                            <% } else if(found && status==='no'){ %>
+                                            <i class="bi bi-x-circle-fill" style="color: black;" title="Not done">Not done</i>
+                                            <% } else { %>
+                                            <i class="bi bi-dash-circle-fill" style="color: black;" title="None">None</i>
+                                            <% } %>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-2">
+
+                            <a href="/favourite/?id=<%= habit._id %>">
+                                
+                                <% if(habit.favourite) { %>
+                                <i class="bi bi-star-fill" style="color: black;" title="Remove from favourite"></i>
+                                <% } else { %>
+                                <i class="bi bi-star" style="color: black;" title="Set as favourite"></i>
+                                <% } %>
+                            </a>
+                            <a href="/delete/?id=<%= habit._id %>">
+                                <i class="bi bi-trash-fill" style="color: black;" title="Delete Habit"></i>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+<% } %>
+
+<% } %>
