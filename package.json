@@ -4,7 +4,7 @@
   "description": "My Habit Tracker is an app used to keep track of habits daily/weekly. It is made using Nodejs and ejs.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "author": "Narala Praveen",
   "license": "ISC",
