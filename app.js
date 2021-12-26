@@ -20,10 +20,10 @@ app.use('/', habits);
 const port = process.env.PORT || 3000;
 
 // connecting to local database
-const dbUrl = "mongodb://localhost:27017/my-habit-tracker";
-connectDB(dbUrl);
+// const dbUrl = "mongodb://localhost:27017/my-habit-tracker";
+// connectDB(dbUrl);
 
-// connectDB(process.env.MONGO_URI);  // connects to database specified in .env file
+connectDB(process.env.MONGO_URI);  // connects to database specified in .env file
 
 // connecting to server
 app.listen(port, () => {
